@@ -1,0 +1,7 @@
+.python_packages/
+__pycache__/
+*.py[cod]
+data/raw/
+data/processed/
+results/
+.pytest_cache/
