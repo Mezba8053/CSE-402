@@ -1,10 +1,7 @@
 """Run the complete automated verification suite with local dependencies."""
 
 from pathlib import Path
-<<<<<<< HEAD
-=======
 import os
->>>>>>> 56529ac (added pylbm model for optimized side radius)
 import sys
 import unittest
 
@@ -13,13 +10,10 @@ ROOT = Path(__file__).resolve().parent
 LOCAL_DEPENDENCIES = ROOT / ".python_packages"
 if LOCAL_DEPENDENCIES.is_dir():
     sys.path.insert(0, str(LOCAL_DEPENDENCIES))
-<<<<<<< HEAD
-=======
     existing_pythonpath = os.environ.get("PYTHONPATH", "")
     os.environ["PYTHONPATH"] = str(LOCAL_DEPENDENCIES) + (
         os.pathsep + existing_pythonpath if existing_pythonpath else ""
     )
->>>>>>> 56529ac (added pylbm model for optimized side radius)
 sys.path.insert(0, str(ROOT))
 
 

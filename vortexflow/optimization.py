@@ -22,11 +22,7 @@ from .numerics import (
 
 DEFAULT_WEIGHTS = {
     "frequency": 0.35,
-<<<<<<< HEAD
-    "lift": 0.20,
-=======
     "signal": 0.20,
->>>>>>> 56529ac (added pylbm model for optimized side radius)
     "pressure": 0.30,
     "symmetry": 0.15,
 }
@@ -45,15 +41,9 @@ def objective_values(rows: list[dict], weights: dict[str, float] | None = None) 
     return np.asarray(
         [
             weights["frequency"] * normalized(row, "frequency_hz")
-<<<<<<< HEAD
-            + weights["lift"] * normalized(row, "lift_amplitude_npm")
-            - weights["pressure"] * normalized(row, "mean_pressure_drop_pa_trapezoidal")
-            - weights["symmetry"] * normalized(row, "symmetry_deviation")
-=======
             + weights["signal"] * normalized(row, "signal_amplitude_pa")
             - weights["pressure"] * normalized(row, "mean_pressure_drop_pa_trapezoidal")
             - weights["symmetry"] * normalized(row, "signal_symmetry_deviation")
->>>>>>> 56529ac (added pylbm model for optimized side radius)
             for row in rows
         ],
         dtype=float,
@@ -70,13 +60,8 @@ def optimize_metrics(
     if len(rows) < 4:
         raise ValueError("at least four completed geometry cases are required")
     required = [
-<<<<<<< HEAD
-        "side_radius_mm", "frequency_hz", "lift_amplitude_npm",
-        "mean_pressure_drop_pa_trapezoidal", "symmetry_deviation",
-=======
         "side_radius_mm", "frequency_hz", "signal_amplitude_pa",
         "mean_pressure_drop_pa_trapezoidal", "signal_symmetry_deviation",
->>>>>>> 56529ac (added pylbm model for optimized side radius)
     ]
     for row in rows:
         if "frequency_reliable" in row and row["frequency_reliable"].strip().lower() not in {
@@ -87,8 +72,6 @@ def optimize_metrics(
             )
         if "stable" in row and row["stable"].strip().lower() not in {"true", "1", "yes"}:
             raise ValueError(f"unstable simulation in case {row.get('case_id', '?')}")
-<<<<<<< HEAD
-=======
         for quality_flag in (
             "low_mach_valid", "mass_conservation_ok", "sampling_stationary"
         ):
@@ -108,7 +91,6 @@ def optimize_metrics(
                 raise ValueError(
                     f"failed {quality_flag} check in case {row.get('case_id', '?')}"
                 )
->>>>>>> 56529ac (added pylbm model for optimized side radius)
         for name in required:
             value = float(row[name])
             if not np.isfinite(value):

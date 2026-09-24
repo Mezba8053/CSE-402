@@ -1,17 +1,4 @@
 {
-<<<<<<< HEAD
-  "case_id": "smoke",
-  "nx": 160,
-  "ny": 48,
-  "steps": 6000,
-  "sample_start": 1800,
-  "sample_interval": 4,
-  "snapshot_interval": 700,
-  "inlet_lattice_velocity": 0.08,
-  "inlet_perturbation_fraction": 0.01,
-  "reynolds_number": 150.0,
-  "smagorinsky_constant": 0.12,
-=======
   "case_id": "pylbm_smoke",
   "nx": 140,
   "ny": 42,
@@ -22,7 +9,6 @@
   "inlet_lattice_velocity": 0.035,
   "inlet_perturbation_fraction": 0.01,
   "reynolds_number": 150.0,
->>>>>>> 56529ac (added pylbm model for optimized side radius)
   "blockage_ratio": 0.30,
   "generator_x_ratio": 0.32,
   "generator_length_ratio": 0.42,

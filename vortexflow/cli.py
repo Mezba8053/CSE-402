@@ -3,26 +3,16 @@
 from __future__ import annotations
 
 import argparse
-<<<<<<< HEAD
-import json
-
-from .config import load_config
-from .optimization import optimize_metrics
-from .pipeline import run_case, run_sweep
-=======
 import csv
 import json
 
 from .config import load_config
 from .optimization import optimize_metrics, objective_values
 from .pipeline import run_case, run_sweep, verify_optimum
->>>>>>> 56529ac (added pylbm model for optimized side radius)
 from .plots import plot_case, plot_optimization
 from .postprocess import analyze_case
 
 
-<<<<<<< HEAD
-=======
 def print_numerical_summary(metrics: dict) -> None:
     """Print the numerical-method outputs most useful for a course demo."""
     radius = metrics.get("side_radius_mm", "fixed by configuration")
@@ -55,7 +45,6 @@ def print_optimization_summary(summary: dict) -> None:
     print("  Note: these are surrogate-curve predictions; verify-optimum runs a fresh LBM case.")
 
 
->>>>>>> 56529ac (added pylbm model for optimized side radius)
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(description="Triangular vortex-flowmeter numerical project")
     commands = parser.add_subparsers(dest="command", required=True)
@@ -75,8 +64,6 @@ def build_parser() -> argparse.ArgumentParser:
     optimize = commands.add_parser("optimize", help="optimize an existing metrics table")
     optimize.add_argument("metrics_csv")
     optimize.add_argument("--output", default="results/optimization")
-<<<<<<< HEAD
-=======
 
     verify = commands.add_parser(
         "verify-optimum", help="directly simulate a predicted optimum"
@@ -84,7 +71,6 @@ def build_parser() -> argparse.ArgumentParser:
     verify.add_argument("config")
     verify.add_argument("optimization_summary")
     verify.add_argument("--quiet", action="store_true")
->>>>>>> 56529ac (added pylbm model for optimized side radius)
     return parser
 
 
@@ -92,20 +78,11 @@ def main() -> None:
     args = build_parser().parse_args()
     if args.command == "simulate":
         metrics = run_case(load_config(args.config), progress=not args.quiet)
-<<<<<<< HEAD
-=======
         print_numerical_summary(metrics)
->>>>>>> 56529ac (added pylbm model for optimized side radius)
         print(json.dumps(metrics, indent=2, allow_nan=True))
     elif args.command == "analyze":
         metrics = analyze_case(args.case_directory)
         plot_case(args.case_directory)
-<<<<<<< HEAD
-        print(json.dumps(metrics, indent=2, allow_nan=True))
-    elif args.command == "sweep":
-        metrics, summary = run_sweep(args.config, args.radii, progress=not args.quiet)
-        print(f"metrics: {metrics}")
-=======
         print_numerical_summary(metrics)
         print(json.dumps(metrics, indent=2, allow_nan=True))
     elif args.command == "sweep":
@@ -133,14 +110,10 @@ def main() -> None:
                 f"stationary={row['sampling_stationary']}"
             )
         print_optimization_summary(summary)
->>>>>>> 56529ac (added pylbm model for optimized side radius)
         print(json.dumps(summary, indent=2))
     elif args.command == "optimize":
         summary = optimize_metrics(args.metrics_csv, args.output)
         plot_optimization(args.output, args.metrics_csv)
-<<<<<<< HEAD
-        print(json.dumps(summary, indent=2))
-=======
         print_optimization_summary(summary)
         print(json.dumps(summary, indent=2))
     elif args.command == "verify-optimum":
@@ -149,4 +122,3 @@ def main() -> None:
         )
         print_numerical_summary(metrics)
         print(json.dumps(metrics, indent=2, allow_nan=True))
->>>>>>> 56529ac (added pylbm model for optimized side radius)

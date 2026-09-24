@@ -1,6 +1,3 @@
 numpy>=2.0
 matplotlib>=3.9
-<<<<<<< HEAD
-=======
 pylbm==0.11.0
->>>>>>> 56529ac (added pylbm model for optimized side radius)
