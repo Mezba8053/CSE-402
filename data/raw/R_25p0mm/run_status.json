@@ -1,0 +1,13 @@
+{
+  "solver": "PyLBM 0.11.0",
+  "scheme": "D2Q9 Geier central-moment MRT",
+  "backend": "NumPy",
+  "stable": true,
+  "elapsed_seconds": 2071.9636150269944,
+  "samples": 4801,
+  "max_lattice_velocity": 0.0932453041090257,
+  "max_lattice_mach": 0.1615056042840435,
+  "low_mach_valid": true,
+  "mass_relative_change": 0.013471215724271294,
+  "mass_conservation_ok": false
+}

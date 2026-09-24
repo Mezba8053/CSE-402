@@ -1,0 +1,28 @@
+{
+  "weights": {
+    "frequency": 0.35,
+    "signal": 0.2,
+    "pressure": 0.3,
+    "symmetry": 0.15
+  },
+  "qr_polynomial_coefficients_in_increasing_order": [
+    4.561446266125592,
+    -0.45865912592406716,
+    0.014854709891664182,
+    -0.00015315216523014571
+  ],
+  "qr_residual_norm": 0.04125053927127426,
+  "golden_section": {
+    "x_mm": 39.1890442696082,
+    "objective": 0.18303238363761487,
+    "converged": true,
+    "iterations": 41
+  },
+  "newton": {
+    "x_mm": 25.473051643783155,
+    "objective": -0.014562106893577287,
+    "converged": false,
+    "iterations": 6
+  },
+  "verification_required": true
+}
