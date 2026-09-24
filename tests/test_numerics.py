@@ -87,8 +87,13 @@ class NumericalMethodsTests(unittest.TestCase):
             metrics = root / "metrics.csv"
             fields = [
                 "case_id", "side_radius_mm", "frequency_hz",
+<<<<<<< HEAD
                 "lift_amplitude_npm", "mean_pressure_drop_pa_trapezoidal",
                 "symmetry_deviation", "frequency_reliable", "stable",
+=======
+                "signal_amplitude_pa", "mean_pressure_drop_pa_trapezoidal",
+                "signal_symmetry_deviation", "frequency_reliable", "stable",
+>>>>>>> 56529ac (added pylbm model for optimized side radius)
             ]
             with metrics.open("w", newline="", encoding="utf-8") as handle:
                 writer = csv.DictWriter(handle, fieldnames=fields)
@@ -97,9 +102,15 @@ class NumericalMethodsTests(unittest.TestCase):
                     writer.writerow({
                         "case_id": f"R{radius}", "side_radius_mm": radius,
                         "frequency_hz": 100 + 10 * score,
+<<<<<<< HEAD
                         "lift_amplitude_npm": 20 + score,
                         "mean_pressure_drop_pa_trapezoidal": 400 - 40 * score,
                         "symmetry_deviation": 0.10 - 0.02 * score,
+=======
+                        "signal_amplitude_pa": 20 + score,
+                        "mean_pressure_drop_pa_trapezoidal": 400 - 40 * score,
+                        "signal_symmetry_deviation": 0.10 - 0.02 * score,
+>>>>>>> 56529ac (added pylbm model for optimized side radius)
                         "frequency_reliable": True, "stable": True,
                     })
             output = root / "optimization"

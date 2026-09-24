@@ -19,7 +19,10 @@ class SimulationConfig:
     inlet_lattice_velocity: float = 0.08
     inlet_perturbation_fraction: float = 0.01
     reynolds_number: float = 200.0
+<<<<<<< HEAD
     smagorinsky_constant: float = 0.12
+=======
+>>>>>>> 56529ac (added pylbm model for optimized side radius)
     blockage_ratio: float = 0.30
     generator_x_ratio: float = 0.32
     generator_length_ratio: float = 0.42
@@ -35,7 +38,11 @@ class SimulationConfig:
 
     @property
     def body_height_cells(self) -> float:
+<<<<<<< HEAD
         return self.blockage_ratio * (self.ny - 2)
+=======
+        return self.blockage_ratio * self.ny
+>>>>>>> 56529ac (added pylbm model for optimized side radius)
 
     @property
     def body_length_cells(self) -> float:
@@ -47,13 +54,32 @@ class SimulationConfig:
 
     @property
     def physical_dx_m(self) -> float:
+<<<<<<< HEAD
         return self.pipe_diameter_m / (self.ny - 2)
+=======
+        return self.pipe_diameter_m / self.ny
+>>>>>>> 56529ac (added pylbm model for optimized side radius)
 
     @property
     def physical_dt_s(self) -> float:
         return self.inlet_lattice_velocity * self.physical_dx_m / self.physical_velocity_mps
 
     @property
+<<<<<<< HEAD
+=======
+    def body_height_m(self) -> float:
+        return self.body_height_cells * self.physical_dx_m
+
+    @property
+    def effective_kinematic_viscosity_m2ps(self) -> float:
+        return self.physical_velocity_mps * self.body_height_m / self.reynolds_number
+
+    @property
+    def effective_dynamic_viscosity_pas(self) -> float:
+        return self.physical_density_kgpm3 * self.effective_kinematic_viscosity_m2ps
+
+    @property
+>>>>>>> 56529ac (added pylbm model for optimized side radius)
     def lattice_viscosity(self) -> float:
         return self.inlet_lattice_velocity * self.body_height_cells / self.reynolds_number
 
@@ -88,6 +114,14 @@ class SimulationConfig:
             raise ValueError("generator_x_ratio is outside the supported range")
         if self.side_radius_mm <= 0 or self.fillet_radius_mm <= 0:
             raise ValueError("geometry radii must be positive")
+<<<<<<< HEAD
+=======
+        if abs(self.incoming_angle_deg - 180.0) > 1e-9:
+            raise ValueError(
+                "the simplified PyLBM geometry supports the paper-selected "
+                "180 degree incoming face only"
+            )
+>>>>>>> 56529ac (added pylbm model for optimized side radius)
         if self.base_relaxation_time <= 0.5005:
             raise ValueError(
                 "relaxation time is too close to 0.5; increase resolution, "
@@ -101,10 +135,22 @@ class SimulationConfig:
         result.update(
             physical_dx_m=self.physical_dx_m,
             physical_dt_s=self.physical_dt_s,
+<<<<<<< HEAD
             body_height_cells=self.body_height_cells,
             body_length_cells=self.body_length_cells,
             base_relaxation_time=self.base_relaxation_time,
             model="D2Q9 MRT-LBM with Smagorinsky LES correction",
+=======
+            body_height_m=self.body_height_m,
+            effective_kinematic_viscosity_m2ps=self.effective_kinematic_viscosity_m2ps,
+            effective_dynamic_viscosity_pas=self.effective_dynamic_viscosity_pas,
+            body_height_cells=self.body_height_cells,
+            body_length_cells=self.body_length_cells,
+            base_relaxation_time=self.base_relaxation_time,
+            model="PyLBM D2Q9 Geier central-moment MRT",
+            lbm_library="pylbm==0.11.0",
+            lbm_backend="NumPy",
+>>>>>>> 56529ac (added pylbm model for optimized side radius)
         )
         return result
 

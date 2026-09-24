@@ -1,4 +1,5 @@
 {
+<<<<<<< HEAD
   "case_id": "course_baseline",
   "nx": 360,
   "ny": 96,
@@ -14,6 +15,22 @@
   "generator_x_ratio": 0.32,
   "generator_length_ratio": 0.42,
   "incoming_angle_deg": 180.0,
+=======
+  "case_id": "pylbm_course_baseline",
+  "nx": 360,
+  "ny": 96,
+  "steps": 54000,
+  "sample_start": 30000,
+  "sample_interval": 5,
+  "snapshot_interval": 1000,
+  "inlet_lattice_velocity": 0.03,
+  "inlet_perturbation_fraction": 0.01,
+  "reynolds_number": 500.0,
+  "blockage_ratio": 0.30,
+  "generator_x_ratio": 0.32,
+  "generator_length_ratio": 0.42,
+  "incoming_angle_deg": 180.0, 
+>>>>>>> 56529ac (added pylbm model for optimized side radius)
   "side_radius_mm": 40.0,
   "fillet_radius_mm": 4.0,
   "pipe_diameter_m": 0.09718,

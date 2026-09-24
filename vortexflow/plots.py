@@ -25,13 +25,22 @@ def plot_case(case_directory: str | Path) -> list[Path]:
     with (case / "time_series.csv").open(newline="", encoding="utf-8") as handle:
         rows = list(csv.DictReader(handle))
     time = np.asarray([float(row["time_s"]) for row in rows])
+<<<<<<< HEAD
     lift = np.asarray([float(row["lift_npm"]) for row in rows])
+=======
+    signal = np.asarray([float(row["vortex_signal_pa"]) for row in rows])
+>>>>>>> 56529ac (added pylbm model for optimized side radius)
     pressure = np.asarray([float(row["pressure_drop_pa"]) for row in rows])
 
     created: list[Path] = []
     fig, axes = plt.subplots(2, 1, figsize=(9, 7), sharex=True)
+<<<<<<< HEAD
     axes[0].plot(time, lift, linewidth=1.0)
     axes[0].set_ylabel("Lift per depth (N/m)")
+=======
+    axes[0].plot(time, signal, linewidth=1.0)
+    axes[0].set_ylabel("Vortex sensor Δp (Pa)")
+>>>>>>> 56529ac (added pylbm model for optimized side radius)
     axes[0].grid(alpha=0.3)
     axes[1].plot(time, pressure, linewidth=1.0, color="tab:red")
     axes[1].set_xlabel("Physical time (s)")
@@ -46,6 +55,15 @@ def plot_case(case_directory: str | Path) -> list[Path]:
     spectrum = np.load(case / "spectrum.npz")
     fig, ax = plt.subplots(figsize=(8, 4.5))
     ax.plot(spectrum["frequency"], spectrum["amplitude"], linewidth=1.0)
+<<<<<<< HEAD
+=======
+    if len(spectrum["frequency"]) > 1:
+        dominant_index = int(np.argmax(spectrum["amplitude"][1:]) + 1)
+        dominant_frequency = float(spectrum["frequency"][dominant_index])
+        upper = min(float(spectrum["frequency"][-1]), 5.0 * dominant_frequency)
+        if upper > 0:
+            ax.set_xlim(0.0, upper)
+>>>>>>> 56529ac (added pylbm model for optimized side radius)
     ax.set_xlabel("Frequency (Hz)")
     ax.set_ylabel("FFT amplitude")
     ax.grid(alpha=0.3)

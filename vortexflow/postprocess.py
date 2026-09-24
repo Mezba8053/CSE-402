@@ -122,16 +122,27 @@ def analyze_case(case_directory: str | Path) -> dict:
         raise ValueError("case does not contain enough time-series samples")
 
     time = arrays["time_s"]
+<<<<<<< HEAD
     lift = arrays["lift_npm"]
+=======
+    signal = arrays["vortex_signal_pa"]
+>>>>>>> 56529ac (added pylbm model for optimized side radius)
     pressure_drop = arrays["pressure_drop_pa"]
     frequency = float("nan")
     frequency_std = float("nan")
     peak_count = 0
     try:
+<<<<<<< HEAD
         frequency, frequency_std, peak_count = frequency_peak_to_peak(time, lift)
     except ValueError:
         pass
     fft_frequency, fft_axis, fft_amplitude = frequency_fft(time, lift)
+=======
+        frequency, frequency_std, peak_count = frequency_peak_to_peak(time, signal)
+    except ValueError:
+        pass
+    fft_frequency, fft_axis, fft_amplitude = frequency_fft(time, signal)
+>>>>>>> 56529ac (added pylbm model for optimized side radius)
     fft_resolution = 1.0 / (time[-1] - time[0])
     relative_difference = (
         abs(frequency - fft_frequency) / fft_frequency
@@ -147,14 +158,43 @@ def analyze_case(case_directory: str | Path) -> dict:
     if (len(time) - 1) % 2 == 0:
         pressure_simpson = simpson_uniform(time, pressure_drop) / duration
 
+<<<<<<< HEAD
     lift_max = float(np.max(lift))
     lift_min = float(np.min(lift))
     denominator = abs(lift_max - lift_min)
     symmetry = abs(lift_max + lift_min) / denominator if denominator else float("nan")
+=======
+    split = len(time) // 2
+    pressure_first = float(np.mean(pressure_drop[:split]))
+    pressure_second = float(np.mean(pressure_drop[split:]))
+    pressure_stationarity = abs(pressure_second - pressure_first) / max(
+        abs(pressure_trapezoidal), 1e-14
+    )
+    detrended_signal = _linear_detrend(time, signal)
+    signal_rms_first = float(np.sqrt(np.mean(detrended_signal[:split] ** 2)))
+    signal_rms_second = float(np.sqrt(np.mean(detrended_signal[split:] ** 2)))
+    signal_stationarity = abs(signal_rms_second - signal_rms_first) / max(
+        signal_rms_first, signal_rms_second, 1e-14
+    )
+    sampling_stationary = bool(
+        pressure_stationarity <= 0.15 and signal_stationarity <= 0.25
+    )
+
+    signal_max = float(np.max(signal))
+    signal_min = float(np.min(signal))
+    denominator = abs(signal_max - signal_min)
+    symmetry = abs(signal_max + signal_min) / denominator if denominator else float("nan")
+>>>>>>> 56529ac (added pylbm model for optimized side radius)
     strouhal = (
         frequency * config["characteristic_width_m"] / config["physical_velocity_mps"]
         if np.isfinite(frequency) else float("nan")
     )
+<<<<<<< HEAD
+=======
+    pipe_area = 0.25 * np.pi * config["pipe_diameter_m"] ** 2
+    volumetric_flow_rate = config["physical_velocity_mps"] * pipe_area
+    mass_flow_rate = config["physical_density_kgpm3"] * volumetric_flow_rate
+>>>>>>> 56529ac (added pylbm model for optimized side radius)
 
     snapshots = sorted(case.glob("field_*.npz"))
     if snapshots:
@@ -182,16 +222,43 @@ def analyze_case(case_directory: str | Path) -> dict:
         "frequency_reliable": frequency_reliable,
         "peak_count": peak_count,
         "strouhal_number": strouhal,
+<<<<<<< HEAD
         "lift_amplitude_npm": 0.5 * denominator,
         "symmetry_deviation": symmetry,
+=======
+        "signal_amplitude_pa": 0.5 * denominator,
+        "signal_symmetry_deviation": symmetry,
+>>>>>>> 56529ac (added pylbm model for optimized side radius)
         "mean_pressure_drop_pa_trapezoidal": pressure_trapezoidal,
         "mean_pressure_drop_pa_simpson": pressure_simpson,
         "integration_difference_pa": abs(pressure_trapezoidal - pressure_simpson)
         if np.isfinite(pressure_simpson) else float("nan"),
+<<<<<<< HEAD
         "max_abs_vorticity_per_s": max_abs_vorticity,
         "stable": status["stable"],
         "mass_relative_change": status["mass_relative_change"],
         "max_lattice_velocity": status["max_lattice_velocity"],
+=======
+        "pressure_stationarity_relative": pressure_stationarity,
+        "signal_rms_stationarity_relative": signal_stationarity,
+        "sampling_stationary": sampling_stationary,
+        "max_abs_vorticity_per_s": max_abs_vorticity,
+        "stable": status["stable"],
+        "mass_relative_change": status["mass_relative_change"],
+        # Recompute from the measured drift so cases created with the older
+        # 1% threshold are interpreted consistently with the current 2% open-
+        # boundary tolerance.
+        "mass_conservation_ok": bool(status["mass_relative_change"] <= 0.02),
+        "max_lattice_velocity": status["max_lattice_velocity"],
+        "max_lattice_mach": status.get(
+            "max_lattice_mach", status["max_lattice_velocity"] * np.sqrt(3.0)
+        ),
+        "low_mach_valid": status.get(
+            "low_mach_valid", status["max_lattice_velocity"] * np.sqrt(3.0) <= 0.30
+        ),
+        "volumetric_flow_rate_m3ps": volumetric_flow_rate,
+        "mass_flow_rate_kgps": mass_flow_rate,
+>>>>>>> 56529ac (added pylbm model for optimized side radius)
     }
     with (case / "metrics.json").open("w", encoding="utf-8") as handle:
         json.dump(metrics, handle, indent=2, allow_nan=True)

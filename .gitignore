@@ -1,7 +1,15 @@
 .python_packages/
+<<<<<<< HEAD
+=======
+.venv/
+>>>>>>> 56529ac (added pylbm model for optimized side radius)
 __pycache__/
 *.py[cod]
 data/raw/
 data/processed/
 results/
 .pytest_cache/
+<<<<<<< HEAD
+=======
+build/
+>>>>>>> 56529ac (added pylbm model for optimized side radius)
